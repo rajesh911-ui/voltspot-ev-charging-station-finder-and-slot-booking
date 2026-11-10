@@ -1,0 +1,6 @@
+{
+  "name": "VoltSpot EV - Charging Station Finder & Slot Booking",
+  "description": "Full-stack EV charging station finder and slot booking system with interactive map, real-time slot conflict prevention, cost estimation, and Driver/Operator/Admin portals.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

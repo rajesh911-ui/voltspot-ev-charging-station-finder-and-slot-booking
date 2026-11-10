@@ -1,0 +1,12 @@
+node_modules/
+build/
+dist/
+coverage/
+target/
+.playwright-mcp/
+.DS_Store
+*.log
+*.class
+*.war
+.env*
+!.env.example

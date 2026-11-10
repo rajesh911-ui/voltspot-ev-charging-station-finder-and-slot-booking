@@ -1,0 +1,1475 @@
+/* ==========================================================================
+   VoltSpot EV - Ultra-Premium Next-Gen Design System
+   Aesthetic: Tesla / Apple / Rivian / Stripe Grade EV Tech Design
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    /* Brand Colors */
+    --primary: #e0eee9;
+    --primary-glow: rgba(16, 185, 129, 0.35);
+    --primary-hover: #059669;
+    --primary-light: #ecfdf5;
+    --primary-dark: #064e3b;
+
+    --accent-blue: #3b82f6;
+    --accent-blue-glow: rgba(59, 130, 246, 0.35);
+    --accent-cyan: #06b6d4;
+    --accent-amber: #f59e0b;
+    --accent-amber-glow: rgba(245, 158, 11, 0.3);
+
+    /* Backgrounds & Surfaces */
+    --bg-body: #f8fafc;
+    --bg-dark: #090d16;
+    --bg-dark-card: #0f172a;
+    --bg-card: #ffffff;
+    --bg-glass: rgba(255, 255, 255, 0.85);
+    --bg-glass-dark: rgba(15, 23, 42, 0.88);
+
+    /* Typography */
+    --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-light: #f8fafc;
+
+    /* Borders & Shadows */
+    --border: #e2e8f0;
+    --border-dark: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(16, 185, 129, 0.3);
+
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 20px rgba(16, 185, 129, 0.18);
+    --shadow-glow-blue: 0 0 20px rgba(59, 130, 246, 0.2);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+}
+
+/* Base Setup */
+body {
+    font-family: var(--font-main);
+    color: var(--text-primary);
+    background-color: var(--bg-body);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* ==========================================================================
+   Premium Navbar
+   ========================================================================== */
+.navbar {
+    background: var(--bg-glass-dark) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border-dark);
+    padding: 0.85rem 0;
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 1.45rem;
+    letter-spacing: -0.03em;
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand i {
+    filter: drop-shadow(0 0 10px var(--primary-glow));
+    transition: transform 0.2s ease;
+}
+
+.navbar-brand:hover i {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.navbar-brand span strong {
+    color: var(--primary);
+}
+
+.nav-link {
+    font-weight: 500;
+    font-size: 0.92rem;
+    color: #cbd5e1 !important;
+    padding: 0.5rem 0.9rem !important;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.active {
+    color: var(--primary) !important;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Hero Section - Cybernetic Dark Gradient with Radial Lighting
+   ========================================================================== */
+.hero-section {
+    background: linear-gradient(145deg, #090d16 0%, #0f172a 50%, #111e38 100%);
+    color: #ffffff;
+    padding: 85px 0 75px 0;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+    top: -150px;
+    right: -100px;
+    pointer-events: none;
+    filter: blur(40px);
+}
+
+.hero-section::after {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+    bottom: -150px;
+    left: 10%;
+    pointer-events: none;
+    filter: blur(50px);
+}
+
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(16, 185, 129, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+}
+
+.hero-title {
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+    background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-title .text-gradient-emerald {
+    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-search-card {
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--border);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hero-search-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.3);
+}
+
+.hero-stat-card {
+    background: rgba(15, 23, 42, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.hero-stat-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ==========================================================================
+   Cards & Elevated Surfaces
+   ========================================================================== */
+.card {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.station-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.station-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl), 0 0 0 1px var(--primary);
+    border-color: var(--primary);
+}
+
+.station-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent-blue));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.station-card:hover::before {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   Charging Type Spec Panels
+   ========================================================================== */
+.badge-fast {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    color: #92400e;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid #fcd34d;
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge-normal {
+    background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+    color: #0369a1;
+    font-weight: 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.02em;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    border: 1px solid #7dd3fc;
+    display: inline-flex;
+    align-items: center;
+}
+
+.spec-box-fast {
+    background: #fffbeb;
+    border: 1px solid #fef08a;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.spec-box-fast:hover {
+    border-color: #f59e0b;
+}
+
+.spec-box-normal {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: var(--radius-md);
+    padding: 14px;
+    transition: border-color 0.2s ease;
+}
+
+.spec-box-normal:hover {
+    border-color: #0284c7;
+}
+
+/* ==========================================================================
+   Buttons & Controls
+   ========================================================================== */
+.btn {
+    font-family: var(--font-main);
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    padding: 0.55rem 1.25rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: -0.01em;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+}
+
+.btn-success:hover,
+.btn-success:focus {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    box-shadow: 0 6px 15px rgba(59, 130, 246, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-outline-success {
+    border: 1.5px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline-success:hover {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    font-size: 0.95rem;
+    padding: 0.65rem 0.95rem;
+    transition: all 0.2s ease;
+    font-family: var(--font-main);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.input-group-text {
+    border-radius: var(--radius-md);
+    border: 1.5px solid var(--border);
+    background-color: #f8fafc;
+    color: var(--text-muted);
+}
+
+/* ==========================================================================
+   Google Maps & Live Location Enhancements
+   ========================================================================== */
+#stationMap,
+#pickerMap,
+#stationDetailMap {
+    border-radius: var(--radius-lg);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.map-card-container {
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: #ffffff;
+}
+
+.gm-style .gm-style-iw-c {
+    border-radius: 16px !important;
+    padding: 14px !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+.gm-style .gm-style-iw-d {
+    overflow: hidden !important;
+}
+
+/* Pulsing Beacon Animation for Live User Location */
+@keyframes pulseBeacon {
+    0% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.7);
+    }
+
+    70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 18px rgba(37, 99, 235, 0);
+    }
+
+    100% {
+        transform: scale(0.9);
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0);
+    }
+}
+
+.live-beacon {
+    width: 24px;
+    height: 24px;
+    background: #2563eb;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    animation: pulseBeacon 2s infinite;
+}
+
+/* Live radar dot */
+.live-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    animation: livePulse 1.8s infinite;
+}
+
+@keyframes livePulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+
+    70% {
+        transform: scale(1.15);
+        box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+/* Indian Rupee Badges & Elements */
+.badge-inr {
+    background: #ecfdf5;
+    color: #065f46;
+    font-weight: 700;
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+    border: 1px solid #a7f3d0;
+}
+
+/* ==========================================================================
+   Slot Selection Grid (Interactive 1-Hour Chips)
+   ========================================================================== */
+.slot-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.slot-btn {
+    border: 1.5px solid #cbd5e1;
+    background: #ffffff;
+    border-radius: var(--radius-md);
+    padding: 12px 6px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+}
+
+.slot-btn:hover:not(.disabled) {
+    border-color: var(--primary);
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.15);
+}
+
+.slot-btn.selected {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff !important;
+    box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
+    transform: translateY(-2px) scale(1.02);
+}
+
+.slot-btn.selected .slot-time {
+    color: #ffffff !important;
+}
+
+.slot-btn.selected .slot-status {
+    color: #d1fae5 !important;
+    font-weight: 600;
+}
+
+.slot-btn.disabled {
+    background: #f1f5f9;
+    border-color: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+.slot-time {
+    font-weight: 700;
+    font-size: 0.92rem;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+.slot-status {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 3px;
+}
+
+/* ==========================================================================
+   UPI Payment & Checkout Suite
+   ========================================================================== */
+.upi-qr-card {
+    background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+    border: 2px dashed #10b981;
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.1);
+}
+
+.upi-app-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    padding: 8px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+}
+
+.upi-app-icon:hover {
+    transform: translateY(-3px);
+    border-color: var(--primary);
+    box-shadow: 0 6px 12px rgba(16, 185, 129, 0.2);
+}
+
+/* Indian Vehicle Plate Tag */
+.plate-preview {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    background: #ffffff;
+    border: 2px solid #0f172a;
+    border-radius: 6px;
+    padding: 4px 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.plate-ind {
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 9px;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-weight: 800;
+}
+
+/* ==========================================================================
+   Executive GST Tax Invoice
+   ========================================================================== */
+.invoice-box {
+    background: #ffffff;
+    padding: 48px;
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.08);
+    position: relative;
+}
+
+.invoice-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 48px;
+    right: 48px;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #3b82f6);
+    border-radius: 4px 4px 0 0;
+}
+
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    .no-print,
+    header,
+    footer,
+    .btn,
+    .navbar,
+    #recenterGpsBtn {
+        display: none !important;
+    }
+
+    .invoice-box {
+        box-shadow: none !important;
+        border: none !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+
+/* Rating Stars */
+.star-rating {
+    color: #f59e0b;
+    font-size: 1.05rem;
+}
+
+/* City quick-jump chip */
+.city-chip {
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.city-chip:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15);
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   VoltSpot EV - Complete Multi-Page Animation Suite
+   Aesthetic: Seamless entrance reveals, continuous radar sweeps,
+   holographic glows, dynamic battery flows, and laser scan lines
+   ========================================================================== */
+
+/* 1. Global Page Entrance Animations */
+@keyframes pageFadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(22px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pageFadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleInPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.94);
+    }
+
+    70% {
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes floatSlow {
+
+    0%,
+    100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-8px) rotate(1deg);
+    }
+}
+
+@keyframes floatReverse {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(8px);
+    }
+}
+
+@keyframes neonGlowPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+    }
+
+    50% {
+        box-shadow: 0 0 32px rgba(16, 185, 129, 0.55), 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+}
+
+@keyframes radarSweepAnim {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes qrLaserScanAnim {
+    0% {
+        top: 4%;
+        opacity: 0.2;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    70% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 94%;
+        opacity: 0.2;
+    }
+}
+
+@keyframes batteryPulseFlow {
+    0% {
+        width: 15%;
+        background-color: #ef4444;
+    }
+
+    35% {
+        width: 52%;
+        background-color: #f59e0b;
+    }
+
+    75% {
+        width: 82%;
+        background-color: #10b981;
+    }
+
+    100% {
+        width: 98%;
+        background-color: #059669;
+    }
+}
+
+@keyframes boltSparkAnim {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 4px #10b981);
+    }
+
+    50% {
+        transform: scale(1.22) rotate(6deg);
+        filter: drop-shadow(0 0 14px #34d399);
+    }
+}
+
+@keyframes stampInAnim {
+    0% {
+        opacity: 0;
+        transform: scale(3) rotate(-30deg);
+    }
+
+    70% {
+        opacity: 0.9;
+        transform: scale(0.95) rotate(-12deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(-10deg);
+    }
+}
+
+@keyframes shimmerSweep {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* 2. Utility Animation Classes */
+.anim-fade-up {
+    animation: pageFadeInUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-fade-down {
+    animation: pageFadeInDown 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-scale-in {
+    animation: scaleInPop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.anim-float {
+    animation: floatSlow 4.5s ease-in-out infinite;
+}
+
+.anim-float-reverse {
+    animation: floatReverse 5s ease-in-out infinite;
+}
+
+.anim-pulse-glow {
+    animation: neonGlowPulse 2.4s ease-out 1 forwards;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+.anim-bolt-spark {
+    display: inline-block;
+    animation: boltSparkAnim 1.6s ease-in-out infinite;
+}
+
+/* Staggered card entrance reveal */
+.stagger-grid>*:nth-child(1) {
+    animation: pageFadeInUp 0.55s ease 0.05s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(2) {
+    animation: pageFadeInUp 0.55s ease 0.12s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(3) {
+    animation: pageFadeInUp 0.55s ease 0.19s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(4) {
+    animation: pageFadeInUp 0.55s ease 0.26s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(5) {
+    animation: pageFadeInUp 0.55s ease 0.33s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(6) {
+    animation: pageFadeInUp 0.55s ease 0.40s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(7) {
+    animation: pageFadeInUp 0.55s ease 0.47s forwards;
+    opacity: 0;
+}
+
+.stagger-grid>*:nth-child(8) {
+    animation: pageFadeInUp 0.55s ease 0.54s forwards;
+    opacity: 0;
+}
+
+/* Interactive Hover Lift on Cards & Buttons */
+.card,
+.station-card,
+.stat-card {
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.28s ease;
+}
+
+.card:hover,
+.station-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 32px -8px rgba(16, 185, 129, 0.16), 0 6px 12px -4px rgba(0, 0, 0, 0.06);
+    border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+/* Button Shimmer */
+.btn-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-shimmer::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(60deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.32) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: rotate(30deg);
+    transition: all 0.6s ease;
+}
+
+.btn-shimmer:hover::after {
+    left: 140%;
+}
+
+/* 3. UPI QR Laser Scan Line */
+.upi-qr-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.qr-laser-line {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #10b981, #34d399, #10b981, transparent);
+    box-shadow: 0 0 12px #10b981, 0 0 4px #34d399;
+    animation: qrLaserScanAnim 2.6s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* 4. Interactive Animated EV Battery Charging Simulator */
+.ev-battery-box {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    color: #ffffff;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.battery-shell {
+    width: 100%;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 3px;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.battery-fill {
+    height: 100%;
+    border-radius: 5px;
+    background: linear-gradient(90deg, #10b981, #34d399);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.6);
+    animation: batteryPulseFlow 5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+    transition: width 0.4s ease;
+}
+
+/* 5. Executive Paid Stamp Imprint */
+.paid-stamp {
+    display: inline-block;
+    padding: 6px 18px;
+    font-size: 1.35rem;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    color: #10b981;
+    border: 3.5px dashed #10b981;
+    border-radius: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    animation: stampInAnim 0.75s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+/* 6. Radar Scanner Overlay on Map */
+.map-radar-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.map-radar-ping {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 400;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+}
+
+/* Live GPS Radar Pulse Marker on Map (for Leaflet & Google Maps) */
+.user-live-gps-radar {
+    position: relative;
+    width: 32px;
+    height: 32px;
+}
+.user-radar-ring {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.45);
+    animation: liveRadarPulse 2s ease-out infinite;
+}
+.user-radar-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #2563eb;
+    border: 2.5px solid #ffffff;
+    box-shadow: 0 0 12px rgba(37, 99, 235, 0.85);
+}
+@keyframes liveRadarPulse {
+    0% {
+        transform: scale(0.5);
+        opacity: 0.95;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+.map-live-location-hud {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 400;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+    color: #ffffff;
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-size: 0.82rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* 7. Modal Spring Entrance */
+.modal.fade .modal-dialog {
+    transform: scale(0.92);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+/* ==========================================================================
+   8. Antigravity Physics Engine & High-Contrast Centered Login Layout
+   ========================================================================== */
+
+/* Background Entrance Animations - Play strictly once upon loading (no infinite looping) */
+@keyframes backgroundEntranceAnim {
+    0% {
+        opacity: 0.25;
+        background-size: 160% 160%;
+        filter: brightness(0.7) contrast(1.15);
+    }
+
+    50% {
+        opacity: 0.9;
+        background-size: 120% 120%;
+        filter: brightness(1.2) contrast(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        background-size: 100% 100%;
+        filter: brightness(1) contrast(1);
+    }
+}
+
+@keyframes bgCanvasEntranceAnim {
+    0% {
+        opacity: 0;
+        transform: scale(1.04);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.antigravity-login-wrapper {
+    position: relative;
+    min-height: calc(100vh - 72px);
+    width: 100%;
+    /* Infallible Centering: CSS Grid + Flexbox dual fallbacks */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    display: grid !important;
+    place-items: center !important;
+    place-content: center !important;
+    background: radial-gradient(ellipse at 50% 35%, #091a28 0%, #020617 100%);
+    /* Background animation plays strictly ONCE upon loading */
+    animation: backgroundEntranceAnim 2s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards !important;
+    animation-iteration-count: 1 !important;
+    animation-fill-mode: forwards !important;
+    overflow: hidden;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+    margin: 0 auto !important;
+}
+
+#antigravity-bg {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: auto;
+    z-index: 1 !important;
+    /* Canvas entrance plays strictly ONCE upon loading */
+    animation: bgCanvasEntranceAnim 1.6s ease-out 1 forwards !important;
+    animation-iteration-count: 1 !important;
+    animation-fill-mode: forwards !important;
+}
+
+.login-center-container {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 490px;
+    margin: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+}
+
+.antigravity-login-card {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto !important;
+    left: auto !important;
+    right: auto !important;
+    float: none !important;
+    align-self: center !important;
+    justify-self: center !important;
+    background: rgba(15, 23, 42, 0.88) !important;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(16, 185, 129, 0.35) !important;
+    border-radius: 1.5rem !important;
+    box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(16, 185, 129, 0.18) !important;
+    overflow: hidden;
+    animation: scaleInPop 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.antigravity-glow-bar {
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #06b6d4, #a843ff, #10b981);
+    background-size: 200% auto;
+    /* Plays strictly once upon loading, instead of continuous infinite loop */
+    animation: neonGlowPulse 2.8s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards !important;
+    animation-iteration-count: 1 !important;
+    animation-fill-mode: forwards !important;
+}
+
+/* High Contrast Adjusted Typography on Dark Particle Background */
+.antigravity-login-card h3,
+.antigravity-login-card .card-title {
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(16, 185, 129, 0.35);
+}
+
+.antigravity-login-card p.subtitle {
+    color: #a7f3d0 !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.antigravity-login-card .form-label {
+    color: #f1f5f9 !important;
+    font-weight: 700 !important;
+    font-size: 0.825rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.antigravity-login-card .input-group-text {
+    background-color: rgba(2, 6, 23, 0.95) !important;
+    border: 1.5px solid #334155 !important;
+    border-right: none !important;
+    color: #10b981 !important;
+    font-size: 1.1rem;
+}
+
+.antigravity-login-card .form-control {
+    background-color: rgba(2, 6, 23, 0.92) !important;
+    border: 1.5px solid #334155 !important;
+    border-left: none !important;
+    color: #ffffff !important;
+    font-weight: 500;
+    transition: all 0.25s ease;
+}
+
+.antigravity-login-card .form-control:focus {
+    background-color: rgba(2, 6, 23, 0.98) !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 0.25rem rgba(16, 185, 129, 0.28) !important;
+    color: #ffffff !important;
+}
+
+.antigravity-login-card .form-control::placeholder {
+    color: #94a3b8 !important;
+}
+
+.antigravity-engine-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: rgba(16, 185, 129, 0.16);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    border-radius: 9999px;
+    color: #34d399;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+}
+
+.antigravity-submit-btn {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.5) !important;
+    transition: all 0.25s ease !important;
+}
+
+.antigravity-submit-btn:hover {
+    background: linear-gradient(135deg, #34d399, #10b981) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.65) !important;
+}
+
+.demo-account-chip {
+    background: rgba(2, 6, 23, 0.75);
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: #f8fafc;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.demo-account-chip:hover {
+    background: rgba(15, 23, 42, 0.95);
+    border-color: #10b981;
+    transform: translateY(-1.5px);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.2);
+    color: #ffffff;
+}
+
+.palette-btn-group .btn {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Full Page Global Antigravity Background & Interactive Panels
+   ========================================================================== */
+#antigravity-global-bg {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 0 !important;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+body {
+    background-color: #080c16 !important;
+    color: #f8fafc !important;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Ensure navigation bar, content, modals and footer layer above background canvas */
+.navbar,
+.main-content,
+footer,
+.modal {
+    position: relative;
+    z-index: 2;
+}
+
+/* Luxury Glassmorphic Panels Across All Pages & Dashboards */
+.card,
+.glass-panel,
+.hero-search-card,
+.invoice-box,
+.stat-card,
+.table-card {
+    background: rgba(15, 23, 42, 0.84) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.09) !important;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.55) !important;
+    color: #f8fafc !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s ease, border-color 0.28s ease;
+    animation: panelSlideUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+}
+
+.card:hover,
+.glass-panel:hover,
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 36px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(16, 185, 129, 0.18) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+}
+
+.card-header {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+
+.card-footer {
+    background: rgba(15, 23, 42, 0.95) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.table-dark,
+.table {
+    --bs-table-bg: transparent !important;
+    color: #f8fafc !important;
+}
+
+.table> :not(caption)>*>* {
+    background-color: transparent !important;
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+    color: #f8fafc !important;
+}
+
+.card .text-dark,
+.card h1,
+.card h2,
+.card h3,
+.card h4,
+.card h5,
+.card h6 {
+    color: #ffffff !important;
+}
+
+.card .text-muted {
+    color: #94a3b8 !important;
+}
+
+.card .bg-light {
+    background-color: rgba(30, 41, 59, 0.65) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Panel Slide-Up Entrance Animation (Plays strictly once upon load) */
+@keyframes panelSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
