@@ -501,9 +501,16 @@ const server = http.createServer((req, res) => {
         route = '/';
     }
 
-    // Redirect root or bare context path (User Flow: opening website first gets Register Page)
+    // Health check endpoint for Render.com zero-downtime deployment
+    if (route === '/health' || route === '/healthz') {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ status: 'UP', service: 'voltspot-ev-booking', uptime: process.uptime() }));
+        return;
+    }
+
+    // Redirect root or bare context path directly to Interactive Stations Map (User Request: Share the Stations Map directly)
     if (route === '/') {
-        res.writeHead(302, { 'Location': `${CONTEXT_PATH}/register.jsp` });
+        res.writeHead(302, { 'Location': `${CONTEXT_PATH}/stations` });
         res.end();
         return;
     }
@@ -526,10 +533,10 @@ const server = http.createServer((req, res) => {
     }
 
     // -------------------------------------------------------------
-    // Route 0: Website Entrypoint (User Request: First get Register Page)
+    // Route 0: Website Entrypoint (User Request: Share Stations Map directly)
     // -------------------------------------------------------------
     if (route === '/') {
-        res.writeHead(302, { 'Location': `${CONTEXT_PATH}/register.jsp` });
+        res.writeHead(302, { 'Location': `${CONTEXT_PATH}/stations` });
         res.end();
         return;
     }
@@ -845,6 +852,25 @@ const server = http.createServer((req, res) => {
 
         const html = renderHeader(currentUser, 'Find EV Charging Stations - VoltSpot India (₹)', 'stations') + `
         <div class="container py-4">
+            <!-- Shareable Live Link Banner -->
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 p-3 rounded-3 shadow-sm anim-fade-up" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(59, 130, 246, 0.12)); border: 1px solid rgba(16, 185, 129, 0.35);">
+                <div class="d-flex align-items-center gap-2 mb-2 mb-md-0">
+                    <span class="badge bg-success px-2 py-1"><i class="bi bi-broadcast me-1"></i> PUBLIC LIVE MAP</span>
+                    <div>
+                        <span class="fw-bold text-dark">VoltSpot EV Stations &amp; Live Radar</span>
+                        <div class="text-muted small">Real-time GPS Tracking, Exact Google Locations &amp; Turn-by-Turn Directions</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="button" onclick="shareCurrentStationMap()" class="btn btn-sm btn-success fw-bold d-inline-flex align-items-center shadow-sm">
+                        <i class="bi bi-share-fill me-1"></i> Share This Map
+                    </button>
+                    <button type="button" onclick="copyCurrentMapLink()" id="copyShareBtn" class="btn btn-sm btn-outline-dark fw-semibold d-inline-flex align-items-center bg-white">
+                        <i class="bi bi-link-45deg me-1"></i> Copy Link
+                    </button>
+                </div>
+            </div>
+
             <!-- Search & Filter Card -->
             <div class="card p-4 shadow-sm border-0 mb-4 bg-white anim-fade-up">
                 <form action="${CONTEXT_PATH}/stations" method="GET" class="row g-3 align-items-end">
@@ -916,6 +942,39 @@ const server = http.createServer((req, res) => {
         </div>
 
         <script>
+        function copyCurrentMapLink() {
+            const shareUrl = window.location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    const btn = document.getElementById('copyShareBtn');
+                    if (btn) {
+                        btn.innerHTML = '<i class="bi bi-check-circle-fill text-success me-1"></i> Copied!';
+                        setTimeout(() => {
+                            btn.innerHTML = '<i class="bi bi-link-45deg me-1"></i> Copy Link';
+                        }, 2500);
+                    }
+                }).catch(() => fallbackCopy(shareUrl));
+            } else {
+                fallbackCopy(shareUrl);
+            }
+        }
+
+        function fallbackCopy(url) {
+            prompt('Copy this live map link to share:', url);
+        }
+
+        function shareCurrentStationMap() {
+            const title = 'VoltSpot EV - Live Charging Station Radar & GPS';
+            const text = 'Find verified EV charging stations, live GPS tracking, and guaranteed slot booking across India:';
+            const url = window.location.href;
+            if (navigator.share) {
+                navigator.share({ title, text, url }).catch(() => {});
+            } else {
+                const shareText = encodeURIComponent(text + ' ' + url);
+                window.open('https://api.whatsapp.com/send?text=' + shareText, '_blank');
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             const stationsData = ${stationsJson};
             window.__stationsData = stationsData;
