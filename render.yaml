@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: voltspot-ev-booking
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: node server.cjs
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.0

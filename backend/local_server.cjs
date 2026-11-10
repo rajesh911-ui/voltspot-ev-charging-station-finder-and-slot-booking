@@ -10,7 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 const CONTEXT_PATH = '/voltspot-ev-booking';
 
 // -------------------------------------------------------------
@@ -489,24 +489,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const server = http.createServer((req, res) => {
     const parsedUrl = url.parse(req.url, true);
-    let pathname = parsedUrl.pathname;
+    let pathname = parsedUrl.pathname || '/';
     const query = parsedUrl.query;
 
+    // Normalize route by stripping CONTEXT_PATH if present (supports both Render root and Tomcat context path)
+    let route = pathname;
+    if (route.startsWith(CONTEXT_PATH)) {
+        route = route.substring(CONTEXT_PATH.length);
+    }
+    if (!route || route === '') {
+        route = '/';
+    }
+
     // Redirect root or bare context path (User Flow: opening website first gets Register Page)
-    if (pathname === '/' || pathname === '' || pathname === CONTEXT_PATH || pathname === `${CONTEXT_PATH}/`) {
+    if (route === '/') {
         res.writeHead(302, { 'Location': `${CONTEXT_PATH}/register.jsp` });
         res.end();
         return;
     }
 
-    if (!pathname.startsWith(CONTEXT_PATH)) {
-        res.writeHead(404, { 'Content-Type': 'text/plain' });
-        res.end('Not Found');
-        return;
-    }
-
-    // Strip context path
-    const route = pathname.substring(CONTEXT_PATH.length) || '/';
     const currentUser = getCurrentUser(req);
 
     // Serve Static Assets from backend/src/main/webapp (or local webapp)
