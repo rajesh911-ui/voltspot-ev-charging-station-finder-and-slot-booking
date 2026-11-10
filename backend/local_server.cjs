@@ -821,8 +821,15 @@ const server = http.createServer((req, res) => {
                                     </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center pt-2 border-top">
-                                <small class="text-muted">Operator: <strong>${s.operatorName}</strong></small>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 pt-2 border-top">
+                                <div class="d-flex gap-1">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=${s.latitude},${s.longitude}&travelmode=driving" target="_blank" class="btn btn-sm btn-outline-primary fw-semibold" title="Live Driving Directions in Google Maps">
+                                        <i class="bi bi-cursor-fill me-1"></i> Directions
+                                    </a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${s.latitude},${s.longitude}" target="_blank" class="btn btn-sm btn-outline-secondary" title="View exact location pin on Google Maps">
+                                        <i class="bi bi-google"></i>
+                                    </a>
+                                </div>
                                 <a href="${CONTEXT_PATH}/station-detail?id=${s.id}" class="btn btn-success fw-semibold px-4 btn-shimmer">
                                     Check Slots &amp; Book (₹) <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
@@ -875,14 +882,18 @@ const server = http.createServer((req, res) => {
             <!-- Premium Google Maps Interactive Radar Section -->
             <div class="map-card-container mb-4 overflow-hidden position-relative anim-fade-up">
                 <div class="map-radar-ping">
-                    <span class="live-dot"></span>
-                    <span>Continuous Live GPS Active</span>
+                    <span class="live-dot" style="background: #3b82f6; box-shadow: 0 0 10px #3b82f6;"></span>
+                    <span style="color: #60a5fa; font-weight: 700;">Live GPS:</span>
+                    <span>Continuous Tracking Active</span>
                 </div>
                 <div class="card-header bg-white py-3 px-4 d-flex flex-wrap justify-content-between align-items-center gap-2 border-bottom">
-                    <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center gap-2">
                         <h6 class="fw-bold mb-0 text-dark">
                             <i class="bi bi-geo-alt-fill text-success me-1"></i> Live Station Radar &amp; GPS Tracker (Google Maps)
                         </h6>
+                        <button type="button" onclick="findNearestStation(window.__stationsData)" class="btn btn-sm btn-outline-success fw-bold d-none d-sm-inline-flex align-items-center">
+                            <i class="bi bi-lightning-charge-fill me-1"></i> Nearest Hub
+                        </button>
                     </div>
                     <div class="d-flex flex-wrap gap-1 align-items-center">
                         <span class="small text-muted fw-bold me-1 d-none d-md-inline">Jump City:</span>
@@ -892,9 +903,11 @@ const server = http.createServer((req, res) => {
                         <a href="javascript:void(0)" onclick="centerMapOnCity(28.6315, 77.2167, 12)" class="city-chip">Delhi NCR</a>
                         <a href="javascript:void(0)" onclick="centerMapOnCity(12.9345, 80.2312, 12)" class="city-chip">Chennai</a>
                         <a href="javascript:void(0)" onclick="centerMapOnCity(18.5913, 73.7389, 12)" class="city-chip">Pune</a>
+                        <a href="javascript:void(0)" onclick="centerMapOnCity(28.4952, 77.0891, 12)" class="city-chip">Gurgaon</a>
+                        <a href="javascript:void(0)" onclick="centerMapOnCity(22.5804, 88.4328, 12)" class="city-chip">Kolkata</a>
                     </div>
                 </div>
-                <div id="stationMap" style="height: 440px; width: 100%;"></div>
+                <div id="stationMap" style="height: 460px; width: 100%;"></div>
             </div>
 
             <!-- Staggered Stations Cards Grid -->
@@ -904,6 +917,7 @@ const server = http.createServer((req, res) => {
         <script>
         document.addEventListener('DOMContentLoaded', function () {
             const stationsData = ${stationsJson};
+            window.__stationsData = stationsData;
             initStationMap('stationMap', stationsData, ${userLat}, ${userLng}, 12);
         });
         </script>
@@ -1087,11 +1101,16 @@ const server = http.createServer((req, res) => {
 
                         <!-- Interactive Google Map Mini View -->
                         <div class="mt-4">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Station Location on Google Maps</h6>
-                                <a href="https://www.google.com/maps/dir/?api=1&destination=${station.latitude},${station.longitude}" target="_blank" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-compass me-1"></i> Directions
-                                </a>
+                            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                                <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-geo-alt-fill text-danger me-1"></i> Exact Google Location</h6>
+                                <div class="d-flex gap-1">
+                                    <a href="https://www.google.com/maps/dir/?api=1&destination=${station.latitude},${station.longitude}&travelmode=driving" target="_blank" class="btn btn-sm btn-primary text-white fw-semibold">
+                                        <i class="bi bi-cursor-fill me-1"></i> Directions
+                                    </a>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${station.latitude},${station.longitude}" target="_blank" class="btn btn-sm btn-outline-secondary" title="View exact location pin on Google Maps">
+                                        <i class="bi bi-google me-1"></i> Exact Pin
+                                    </a>
+                                </div>
                             </div>
                             <div id="stationDetailMap" class="rounded-3 border overflow-hidden shadow-sm" style="height: 220px; width: 100%;"></div>
                         </div>
