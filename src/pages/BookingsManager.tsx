@@ -3,6 +3,7 @@ import { SlotBooking } from '../types';
 import { storage } from '../services/storage';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
+import { formatInr } from '../utils/currency';
 import {
   Calendar,
   Clock,
@@ -171,7 +172,7 @@ export const BookingsManager: React.FC = () => {
                       Est. Energy: <strong className="font-mono text-slate-800 dark:text-slate-200">{b.energyKwh} kWh</strong> ({b.durationHours}h)
                     </span>
                     <span className="font-extrabold text-emerald-600 dark:text-emerald-400 font-mono text-sm">
-                      ${b.estimatedCost.toFixed(2)}
+                      {formatInr(b.estimatedCost)}
                     </span>
                   </div>
                 </div>
@@ -238,7 +239,7 @@ export const BookingsManager: React.FC = () => {
                         {b.energyKwh} kWh
                       </td>
                       <td className="py-3 px-4 font-mono font-bold text-slate-900 dark:text-slate-100 tabular-nums">
-                        ${b.estimatedCost.toFixed(2)}
+                        {formatInr(b.estimatedCost)}
                       </td>
                       <td className="py-3 px-4">
                         <span

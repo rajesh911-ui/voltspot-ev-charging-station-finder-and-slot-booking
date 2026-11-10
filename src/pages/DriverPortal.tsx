@@ -10,6 +10,7 @@ import { useToast } from '../components/Toast';
 import { StationMap } from '../components/Map/StationMap';
 import { BookingModal } from '../components/Booking/BookingModal';
 import { VehicleGarageModal } from '../components/Vehicle/VehicleGarageModal';
+import { formatInr } from '../utils/currency';
 import {
   Search,
   Filter,
@@ -393,7 +394,7 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
                   {/* Action Bar */}
                   <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-3">
                     <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 font-mono">
-                      From ${Math.min(...(station.ports?.map((p) => p.pricePerKwh) || [0.35])).toFixed(2)}/kWh
+                      From {formatInr(Math.min(...(station.ports?.map((p) => p.pricePerKwh) || [29.05])))}/kWh
                     </span>
 
                     <button

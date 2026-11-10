@@ -7,6 +7,7 @@ import {
   NearbySearchParams,
   AdminStats
 } from '../types';
+import { convertLegacyUsdToInr } from '../utils/currency';
 
 const STORAGE_KEYS = {
   USERS: 'voltspot_users',
@@ -16,6 +17,7 @@ const STORAGE_KEYS = {
   BOOKINGS: 'voltspot_bookings',
   CURRENT_USER: 'voltspot_current_user',
   THEME: 'voltspot_theme',
+  CURRENCY: 'voltspot_currency',
 };
 
 // Initial Seed Users
@@ -170,7 +172,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Port A1',
     connectorType: 'CCS2',
     powerOutputKw: 350,
-    pricePerKwh: 0.42,
+    pricePerKwh: 34.86,
     status: 'AVAILABLE',
   },
   {
@@ -179,7 +181,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Port A2',
     connectorType: 'CCS2',
     powerOutputKw: 150,
-    pricePerKwh: 0.38,
+    pricePerKwh: 31.54,
     status: 'AVAILABLE',
   },
   {
@@ -188,7 +190,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Port B1',
     connectorType: 'CHADEMO',
     powerOutputKw: 50,
-    pricePerKwh: 0.32,
+    pricePerKwh: 26.56,
     status: 'AVAILABLE',
   },
   {
@@ -197,7 +199,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Port B2',
     connectorType: 'TYPE2',
     powerOutputKw: 22,
-    pricePerKwh: 0.25,
+    pricePerKwh: 20.75,
     status: 'AVAILABLE',
   },
 
@@ -208,7 +210,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Dispenser 1',
     connectorType: 'CCS2',
     powerOutputKw: 150,
-    pricePerKwh: 0.36,
+    pricePerKwh: 29.88,
     status: 'AVAILABLE',
   },
   {
@@ -217,7 +219,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Dispenser 2',
     connectorType: 'CCS2',
     powerOutputKw: 150,
-    pricePerKwh: 0.36,
+    pricePerKwh: 29.88,
     status: 'IN_USE',
   },
   {
@@ -226,7 +228,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Dispenser 3',
     connectorType: 'TYPE2',
     powerOutputKw: 22,
-    pricePerKwh: 0.24,
+    pricePerKwh: 19.92,
     status: 'AVAILABLE',
   },
 
@@ -237,7 +239,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Solar Stall 1',
     connectorType: 'CCS2',
     powerOutputKw: 100,
-    pricePerKwh: 0.34,
+    pricePerKwh: 28.22,
     status: 'AVAILABLE',
   },
   {
@@ -246,7 +248,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Solar Stall 2',
     connectorType: 'TYPE2',
     powerOutputKw: 22,
-    pricePerKwh: 0.22,
+    pricePerKwh: 18.26,
     status: 'MAINTENANCE',
   },
 
@@ -257,7 +259,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Pier Pod 1',
     connectorType: 'CCS2',
     powerOutputKw: 200,
-    pricePerKwh: 0.45,
+    pricePerKwh: 37.35,
     status: 'AVAILABLE',
   },
   {
@@ -266,7 +268,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Pier Pod 2',
     connectorType: 'CHADEMO',
     powerOutputKw: 50,
-    pricePerKwh: 0.35,
+    pricePerKwh: 29.05,
     status: 'AVAILABLE',
   },
 
@@ -277,7 +279,7 @@ const INITIAL_PORTS: ChargingPort[] = [
     portNumber: 'Bay 1',
     connectorType: 'CCS2',
     powerOutputKw: 120,
-    pricePerKwh: 0.33,
+    pricePerKwh: 27.39,
     status: 'AVAILABLE',
   },
 ];
@@ -301,7 +303,7 @@ const INITIAL_BOOKINGS: SlotBooking[] = [
     endTime: new Date(Date.now() + 30 * 60000).toISOString(),
     durationHours: 1.0,
     energyKwh: 55.0,
-    estimatedCost: 19.80,
+    estimatedCost: 1643.40,
     bookingStatus: 'IN_PROGRESS',
     createdAt: new Date(Date.now() - 60 * 60000).toISOString(),
   },
@@ -322,7 +324,7 @@ const INITIAL_BOOKINGS: SlotBooking[] = [
     endTime: new Date(Date.now() + 2.75 * 3600000).toISOString(),
     durationHours: 0.75,
     energyKwh: 45.0,
-    estimatedCost: 18.90,
+    estimatedCost: 1568.70,
     bookingStatus: 'CONFIRMED',
     createdAt: new Date(Date.now() - 2 * 3600000).toISOString(),
   },
@@ -359,16 +361,49 @@ class StorageManager {
     }
   }
 
-  private set<T>(key: string, value: T): void {
+  private set<T>(key: string, value: T): boolean {
     try {
       localStorage.setItem(key, JSON.stringify(value));
+      return true;
     } catch (e) {
       console.error('LocalStorage write error:', e);
+      return false;
+    }
+  }
+
+  private migrateCurrencyToInr(): void {
+    if (localStorage.getItem(STORAGE_KEYS.CURRENCY) === 'INR-v1') return;
+
+    const storedPorts = this.get<ChargingPort[] | null>(STORAGE_KEYS.PORTS, null);
+    const storedBookings = this.get<SlotBooking[] | null>(STORAGE_KEYS.BOOKINGS, null);
+    const portsMigrated = !Array.isArray(storedPorts) || this.set(
+      STORAGE_KEYS.PORTS,
+      storedPorts.map((port) => ({
+        ...port,
+        pricePerKwh: convertLegacyUsdToInr(port.pricePerKwh),
+      }))
+    );
+    const bookingsMigrated = !Array.isArray(storedBookings) || this.set(
+      STORAGE_KEYS.BOOKINGS,
+      storedBookings.map((booking) => ({
+        ...booking,
+        estimatedCost: convertLegacyUsdToInr(booking.estimatedCost),
+      }))
+    );
+
+    if (portsMigrated && bookingsMigrated) {
+      try {
+        localStorage.setItem(STORAGE_KEYS.CURRENCY, 'INR-v1');
+      } catch (e) {
+        console.error('LocalStorage currency migration error:', e);
+      }
     }
   }
 
   // Initialize defaults if empty
   public init(): void {
+    this.migrateCurrencyToInr();
+
     if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
       this.set(STORAGE_KEYS.USERS, INITIAL_USERS);
     }

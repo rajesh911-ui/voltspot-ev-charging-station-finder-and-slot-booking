@@ -2,12 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { storage } from '../services/storage';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
+import { formatInr } from '../utils/currency';
 import {
   ShieldCheck,
   Users,
   Zap,
   Calendar,
-  DollarSign,
   CheckCircle2,
   XCircle,
   AlertTriangle,
@@ -175,7 +175,7 @@ export const AdminPortal: React.FC = () => {
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/60">
             <span className="text-[10px] uppercase font-semibold text-slate-400">Platform Volume</span>
             <p className="text-xl font-bold font-mono text-slate-900 dark:text-slate-100 mt-0.5 tabular-nums">
-              ${stats.totalRevenue.toFixed(2)}
+              {formatInr(stats.totalRevenue)}
             </p>
             <span className="text-[10px] text-slate-500">Gross Charging Vol.</span>
           </div>
@@ -436,7 +436,7 @@ export const AdminPortal: React.FC = () => {
                       {b.energyKwh} kWh ({b.powerOutputKw} kW)
                     </td>
                     <td className="py-3 px-4 font-mono font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                      ${b.estimatedCost.toFixed(2)}
+                      {formatInr(b.estimatedCost)}
                     </td>
                     <td className="py-3 px-4">
                       <span

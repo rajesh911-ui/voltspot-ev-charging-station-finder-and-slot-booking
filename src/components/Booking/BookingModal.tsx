@@ -8,6 +8,7 @@ import {
 import { storage } from '../../services/storage';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../Toast';
+import { formatInr } from '../../utils/currency';
 import {
   X,
   Zap,
@@ -16,7 +17,6 @@ import {
   Car,
   AlertCircle,
   CheckCircle2,
-  DollarSign,
   BatteryCharging,
   ShieldAlert,
   ArrowRight
@@ -301,7 +301,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({
                     </div>
 
                     <p className="text-xs text-emerald-600 dark:text-emerald-400 font-mono mt-1">
-                      ${port.pricePerKwh.toFixed(2)} / kWh
+                      {formatInr(port.pricePerKwh)} / kWh
                     </p>
                   </button>
                 );
@@ -436,13 +436,13 @@ export const BookingModal: React.FC<BookingModalProps> = ({
               <div>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">Rate / kWh</span>
                 <p className="text-lg font-bold text-slate-900 dark:text-slate-100 font-mono tabular-nums">
-                  ${selectedPort?.pricePerKwh.toFixed(2)}
+                  {selectedPort ? formatInr(selectedPort.pricePerKwh) : '—'}
                 </p>
               </div>
               <div className="col-span-2 sm:col-span-1">
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">Est. Total Cost</span>
                 <p className="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums">
-                  ${estimatedCost.toFixed(2)}
+                  {formatInr(estimatedCost)}
                 </p>
               </div>
             </div>

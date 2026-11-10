@@ -87,7 +87,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <small class="text-muted fw-semibold d-block">Gross Revenue</small>
-                        <h3 class="fw-bold mb-0 text-success">$${totalRevenue != null ? totalRevenue : '0.00'}</h3>
+                        <h3 class="fw-bold mb-0 text-success">₹${totalRevenue != null ? totalRevenue : '0.00'}</h3>
                         <small class="text-muted">Processed payments</small>
                     </div>
                     <div class="bg-warning bg-opacity-10 text-warning p-3 rounded-circle">

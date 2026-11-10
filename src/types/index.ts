@@ -33,7 +33,7 @@ export interface ChargingPort {
   portNumber: string;
   connectorType: ConnectorType;
   powerOutputKw: number; // e.g. 22 (AC), 50, 150, 350 (DC Fast)
-  pricePerKwh: number; // in USD or local currency
+  pricePerKwh: number; // INR per kWh
   status: PortStatus;
 }
 
@@ -73,7 +73,7 @@ export interface SlotBooking {
   endTime: string;   // ISO String, e.g. "2026-10-30T11:00:00"
   durationHours: number;
   energyKwh: number;
-  estimatedCost: number;
+  estimatedCost: number; // INR
   bookingStatus: BookingStatus;
   createdAt: string;
   cancellationReason?: string;

@@ -9,13 +9,13 @@ import {
 import { storage } from '../services/storage';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/Toast';
+import { formatInr } from '../utils/currency';
 import {
   Wrench,
   Plus,
   Zap,
   MapPin,
   Clock,
-  DollarSign,
   CheckCircle2,
   AlertTriangle,
   Settings,
@@ -57,7 +57,7 @@ export const OperatorPortal: React.FC = () => {
   const [portNumber, setPortNumber] = useState('Port A1');
   const [connectorType, setConnectorType] = useState<ConnectorType>('CCS2');
   const [powerOutputKw, setPowerOutputKw] = useState<number>(150);
-  const [pricePerKwh, setPricePerKwh] = useState<number>(0.38);
+  const [pricePerKwh, setPricePerKwh] = useState<number>(31.54);
   const [initialStatus, setInitialStatus] = useState<PortStatus>('AVAILABLE');
 
   // Filter operator's stations
@@ -145,7 +145,7 @@ export const OperatorPortal: React.FC = () => {
         portNumber: 'Port 1 (DC Fast)',
         connectorType: 'CCS2',
         powerOutputKw: 150,
-        pricePerKwh: 0.38,
+        pricePerKwh: 31.54,
         status: 'AVAILABLE',
       });
       storage.createPort({
@@ -153,7 +153,7 @@ export const OperatorPortal: React.FC = () => {
         portNumber: 'Port 2 (AC Mennekes)',
         connectorType: 'TYPE2',
         powerOutputKw: 22,
-        pricePerKwh: 0.25,
+        pricePerKwh: 20.75,
         status: 'AVAILABLE',
       });
 
@@ -299,7 +299,7 @@ export const OperatorPortal: React.FC = () => {
               Generated Revenue
             </span>
             <p className="text-2xl font-extrabold text-slate-900 dark:text-slate-100 font-mono mt-1 tabular-nums">
-              ${totalRevenue.toFixed(2)}
+              {formatInr(totalRevenue)}
             </p>
           </div>
         </div>
@@ -412,7 +412,7 @@ export const OperatorPortal: React.FC = () => {
                             </span>
                           </div>
                           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5 font-mono">
-                            Rate: <strong className="text-emerald-600 dark:text-emerald-400">${port.pricePerKwh.toFixed(2)}</strong> / kWh
+                            Rate: <strong className="text-emerald-600 dark:text-emerald-400">{formatInr(port.pricePerKwh)}</strong> / kWh
                           </p>
                         </div>
                       </div>
@@ -523,7 +523,7 @@ export const OperatorPortal: React.FC = () => {
                       {b.powerOutputKw} kW ({b.connectorType})
                     </td>
                     <td className="py-2.5 px-3 font-mono font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                      ${b.estimatedCost.toFixed(2)}
+                      {formatInr(b.estimatedCost)}
                     </td>
                     <td className="py-2.5 px-3">
                       <span
@@ -791,7 +791,7 @@ export const OperatorPortal: React.FC = () => {
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="text-[11px] font-semibold uppercase text-slate-600 dark:text-slate-400">
-                    Price / kWh ($)
+                    Price / kWh (₹)
                   </label>
                   <input
                     type="number"
