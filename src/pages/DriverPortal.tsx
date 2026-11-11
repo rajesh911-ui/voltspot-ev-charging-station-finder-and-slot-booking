@@ -21,6 +21,7 @@ import {
   ChevronRight,
   ShieldCheck,
   MapPin,
+  ExternalLink,
   SlidersHorizontal,
   CheckCircle2,
   Calendar,
@@ -38,10 +39,11 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
   // Location state (default San Francisco coordinates)
   const [userLocation, setUserLocation] = useState<[number, number]>([37.7885, -122.4075]);
   const [locationName, setLocationName] = useState('San Francisco, CA');
+  const [hasLocationFix, setHasLocationFix] = useState(false);
 
   // Search & Filters
   const [searchQuery, setSearchQuery] = useState('');
-  const [radiusKm, setRadiusKm] = useState<number>(15);
+  const [radiusKm, setRadiusKm] = useState<number>(50);
   const [connectorType, setConnectorType] = useState<ConnectorType | 'ALL'>('ALL');
   const [powerFilter, setPowerFilter] = useState<'ALL' | 'AC' | 'DC_FAST' | 'ULTRA_FAST'>('ALL');
   const [onlyAvailable, setOnlyAvailable] = useState<boolean>(false);
@@ -66,6 +68,7 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
           const lng = position.coords.longitude;
           setUserLocation([lat, lng]);
           setLocationName('Your Current GPS Location');
+          setHasLocationFix(true);
           showToast('success', 'Location Updated', 'Map centered to your real-time coordinates.');
         },
         (error) => {
@@ -109,6 +112,12 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
     return stations;
   }, [userLocation, radiusKm, connectorType, powerFilter, onlyAvailable, searchQuery]);
 
+  const googleMapsNearbyUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+    hasLocationFix
+      ? `EV charging stations near ${userLocation[0]},${userLocation[1]}`
+      : 'EV charging stations near me'
+  )}`;
+
   return (
     <div className="space-y-6">
       {/* Driver Header & EV Garage Quick Banner */}
@@ -128,6 +137,16 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
           </div>
 
           <div className="flex items-center gap-3 shrink-0">
+            <a
+              href={googleMapsNearbyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50 dark:bg-emerald-950/30 hover:bg-emerald-100 dark:hover:bg-emerald-950/60 text-xs font-bold text-emerald-800 dark:text-emerald-300 transition-all shadow-sm"
+              aria-label="Search nearby EV charging stations in Google Maps"
+            >
+              <ExternalLink className="w-4 h-4" />
+              <span>Google Maps</span>
+            </a>
             <button
               onClick={() => setIsGarageOpen(true)}
               className="flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 transition-all shadow-sm"
@@ -169,6 +188,7 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
               onChange={(e) => {
                 const val = e.target.value;
                 setLocationName(val);
+                setHasLocationFix(true);
                 if (val === 'San Francisco, CA') setUserLocation([37.7885, -122.4075]);
                 if (val === 'Mission Bay / SoMa') setUserLocation([37.7712, -122.4048]);
                 if (val === 'Presidio / Marina') setUserLocation([37.7989, -122.4556]);
@@ -180,6 +200,7 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
               <option value="Mission Bay / SoMa">Mission Bay / SoMa Hub</option>
               <option value="Presidio / Marina">Presidio / Marina EcoPark</option>
               <option value="Embarcadero Waterfront">Embarcadero Pier Area</option>
+              <option value="Your Current GPS Location">Your Current GPS Location</option>
             </select>
           </div>
 
@@ -196,6 +217,7 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
               <option value={15}>Within 15 km</option>
               <option value={25}>Within 25 km</option>
               <option value={50}>Within 50 km</option>
+              <option value={60}>Within 60 km</option>
             </select>
           </div>
         </div>
@@ -397,17 +419,32 @@ export const DriverPortal: React.FC<DriverPortalProps> = ({ onOpenBackendExplore
                       From {formatInr(Math.min(...(station.ports?.map((p) => p.pricePerKwh) || [29.05])))}/kWh
                     </span>
 
-                    <button
-                      type="button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setBookingStation(station);
-                      }}
-                      className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
-                    >
-                      <Zap className="w-3.5 h-3.5 fill-white" />
-                      <span>Book Slot</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          `${station.name}, ${station.address}`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center gap-1.5"
+                        aria-label={`Open ${station.name} in Google Maps`}
+                      >
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span>Map</span>
+                      </a>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setBookingStation(station);
+                        }}
+                        className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+                      >
+                        <Zap className="w-3.5 h-3.5 fill-white" />
+                        <span>Book Slot</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               );
