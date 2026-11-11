@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import { UserRole } from '../types';
-import { Zap, Sun, Moon, Code2, Shield, User, Power } from 'lucide-react';
+import { Zap, Sun, Moon, Code2, User } from 'lucide-react';
 
 interface NavbarProps {
   currentTab: string;
@@ -20,7 +19,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   isDarkMode,
   onToggleDarkMode,
 }) => {
-  const { user, role, switchRole, logout } = useAuth();
+  const { user, role, switchRole } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
@@ -114,29 +113,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Zone 3: 1 Primary Action & Utilities */}
         <div className="flex items-center gap-3 shrink-0">
-          {/* Role Badge & Switcher for Rapid Evaluation */}
-          <div className="hidden sm:flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg text-xs font-medium">
-            {(['DRIVER', 'OPERATOR', 'ADMIN'] as UserRole[]).map((r) => (
-              <button
-                key={r}
-                type="button"
-                onClick={() => {
-                  switchRole(r);
-                  if (r === 'DRIVER') onTabChange('finder');
-                  if (r === 'OPERATOR') onTabChange('operator');
-                  if (r === 'ADMIN') onTabChange('admin');
-                }}
-                className={`px-2.5 py-1 rounded-md whitespace-nowrap transition-all ${
-                  role === r
-                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-slate-100 shadow-sm font-semibold'
-                    : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
-                }`}
-              >
-                {r === 'DRIVER' ? 'Driver' : r === 'OPERATOR' ? 'Operator' : 'Admin'}
-              </button>
-            ))}
-          </div>
-
           {/* Theme Toggle */}
           <button
             onClick={onToggleDarkMode}

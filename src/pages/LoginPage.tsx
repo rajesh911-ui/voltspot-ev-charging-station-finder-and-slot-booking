@@ -100,9 +100,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
   };
 
   return (
-    <div className="dark relative min-h-[calc(100vh-140px)] w-full grid place-items-center place-content-center flex items-center justify-center p-4 sm:p-6 overflow-hidden rounded-3xl my-2 mx-auto bg-slate-950">
+    <div className="dark fixed inset-0 z-50 w-full overflow-y-auto bg-slate-950">
+      <div className="relative grid min-h-full w-full place-items-center p-4 sm:p-6">
       {/* 1. Antigravity Interactive Particle Canvas Background */}
-      <div className="absolute inset-0 w-full h-full pointer-events-auto z-0">
+      <div className="fixed inset-0 pointer-events-auto z-0">
         <Antigravity
           colors={['#20a36a', '#2dd4bf', '#75d8a6', '#11865a', '#064e3b']}
           count={1600}
@@ -124,7 +125,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
       </div>
 
       {/* Subtle Dark Vignette Backdrop for Depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/60 to-slate-950/85 pointer-events-none z-0" />
+      <div className="fixed inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/60 to-slate-950/85 pointer-events-none z-0" />
 
       {/* 2. Glassmorphism Login Card with Adjusted High-Contrast Text Colors (Centered via CSS Grid & Flexbox) */}
       <div className="relative z-10 max-w-lg w-full mx-auto my-auto self-center justify-self-center bg-slate-900/85 backdrop-blur-2xl border border-emerald-500/30 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] p-6 sm:p-8 overflow-hidden transition-all duration-300">
@@ -382,6 +383,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
             🔒 Protected by 256-bit encryption &bull; RBI-Compliant UPI / RuPay &bull; GST Registered
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
