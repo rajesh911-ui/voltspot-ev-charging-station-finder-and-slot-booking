@@ -8,10 +8,6 @@ import {
   Mail,
   Lock,
   ArrowRight,
-  ShieldCheck,
-  Car,
-  Wrench,
-  CheckCircle2,
   Sparkles
 } from 'lucide-react';
 
@@ -20,54 +16,15 @@ interface LoginPageProps {
 }
 
 export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
-  const { user, login, register, quickSwitchUser } = useAuth();
+  const { login, register } = useAuth();
   const { showToast } = useToast();
 
   const [mode, setMode] = useState<'login' | 'register'>('login');
-  const [email, setEmail] = useState('driver@voltspot.io');
-  const [password, setPassword] = useState('password123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('+91 98765 43210');
+  const [phone, setPhone] = useState('');
   const [role, setRole] = useState<UserRole>('DRIVER');
-
-  const demoAccounts = [
-    {
-      id: 1,
-      roleName: 'EV Driver',
-      name: 'EV Driver',
-      email: 'driver@voltspot.io',
-      icon: Car,
-      tag: 'Tata Nexon EV',
-      badgeColor: 'border-emerald-500/50 text-emerald-300 bg-emerald-950/50',
-      desc: 'Discover hubs, check real-time slots, UPI payment & GST invoices'
-    },
-    {
-      id: 2,
-      roleName: 'Station Operator',
-      name: 'VoltPower India Operators',
-      email: 'operator@voltspot.io',
-      icon: Wrench,
-      tag: 'Hub Manager',
-      badgeColor: 'border-blue-500/50 text-blue-300 bg-blue-950/50',
-      desc: 'Manage fast chargers, set capacities & pricing (₹), track bookings'
-    },
-    {
-      id: 3,
-      roleName: 'System Admin',
-      name: 'Central Administrator',
-      email: 'admin@voltspot.io',
-      icon: ShieldCheck,
-      tag: 'Full Authority',
-      badgeColor: 'border-rose-500/50 text-rose-300 bg-rose-950/50',
-      desc: 'Approve stations, verify operators, financial reports & audit logs'
-    }
-  ];
-
-  const handleQuickLogin = (id: number, roleName: string) => {
-    quickSwitchUser(id);
-    showToast('success', 'Authentication Successful', `Welcome back! Logged in as ${roleName}`);
-    if (onLoginSuccess) onLoginSuccess();
-  };
 
   const handleEmailLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,7 +38,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
       showToast('success', 'Sign In Successful', `Welcome back, ${email}!`);
       if (onLoginSuccess) onLoginSuccess();
     } else {
-      showToast('error', 'User Not Found', 'No account found. Try 1-click demo profiles or register.');
+      showToast('error', 'User Not Found', 'No account found with this email. Please register first.');
     }
   };
 
@@ -151,69 +108,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           </div>
         </div>
 
-        {/* 3. One-Click Instant Demo Profiles with Adjusted Contrast Colors */}
-        <div className="mb-5">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-bold tracking-wider uppercase text-slate-300">
-              1-Click Demo Access
-            </span>
-            <span className="text-[11px] font-mono text-emerald-400">
-              Instant Switch
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 gap-2">
-            {demoAccounts.map((acc) => {
-              const IconComp = acc.icon;
-              const isActive = user?.email === acc.email;
-
-              return (
-                <button
-                  key={acc.id}
-                  type="button"
-                  onClick={() => handleQuickLogin(acc.id, acc.roleName)}
-                  className={`group p-3 rounded-2xl border text-left transition-all duration-200 flex items-center justify-between gap-3 ${
-                    isActive
-                      ? 'border-emerald-400 bg-emerald-950/60 shadow-[0_0_15px_rgba(16,185,129,0.25)] ring-1 ring-emerald-400'
-                      : 'border-slate-800 bg-slate-950/70 hover:border-emerald-500/60 hover:bg-slate-800/80'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-slate-900 border border-slate-700/80 group-hover:border-emerald-500/40 text-emerald-400 transition-colors">
-                      <IconComp className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-bold text-white group-hover:text-emerald-300 transition-colors">
-                          {acc.name}
-                        </span>
-                        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${acc.badgeColor}`}>
-                          {acc.tag}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-slate-300 mt-0.5 line-clamp-1">
-                        {acc.desc}
-                      </p>
-                    </div>
-                  </div>
-                  {isActive ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
-                  ) : (
-                    <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-emerald-400 transition-colors flex-shrink-0" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="relative flex py-2 items-center">
-          <div className="flex-grow border-t border-slate-800" />
-          <span className="flex-shrink mx-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-            Or Standard Login
-          </span>
-          <div className="flex-grow border-t border-slate-800" />
+        <div className="mb-4 text-center">
+          <p className="text-xs text-slate-300">
+            Sign in with your registered email, or create a new account.
+          </p>
         </div>
 
         {/* Tab Switcher: Sign In vs Register */}
@@ -255,7 +153,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="driver@voltspot.io"
+                  placeholder="e.g. driver@voltspot.io"
                   className="w-full pl-10 pr-3 py-2.5 text-xs font-medium rounded-xl border border-slate-700 bg-slate-950/90 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 transition-all"
                   required
                 />
@@ -272,7 +170,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   className="w-full pl-10 pr-3 py-2.5 text-xs font-medium rounded-xl border border-slate-700 bg-slate-950/90 text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-400/30 transition-all"
                   required
                 />

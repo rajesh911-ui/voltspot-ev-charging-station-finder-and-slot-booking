@@ -9,7 +9,6 @@ interface AuthContextType {
   login: (email: string) => boolean;
   register: (name: string, email: string, phone: string, role: UserRole) => User;
   logout: () => void;
-  quickSwitchUser: (userId: number) => void;
   isAuthenticated: boolean;
 }
 
@@ -79,13 +78,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
-  const quickSwitchUser = (userId: number) => {
-    const target = storage.getUserById(userId);
-    if (target) {
-      setUser(target);
-    }
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -95,7 +87,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         register,
         logout,
-        quickSwitchUser,
         isAuthenticated: !!user,
       }}
     >
