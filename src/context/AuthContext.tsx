@@ -5,41 +5,51 @@ import { storage } from '../services/storage';
 interface AuthContextType {
   user: User | null;
   token: string | null;
-  role: UserRole;
+  role: UserRole | null;
   login: (email: string) => boolean;
   register: (name: string, email: string, phone: string, role: UserRole) => User;
   logout: () => void;
-  switchRole: (role: UserRole) => void;
   quickSwitchUser: (userId: number) => void;
   isAuthenticated: boolean;
 }
+
+const AUTH_USER_KEY = 'voltspot_authenticated_user';
+const LEGACY_USER_KEY = 'voltspot_current_user';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(() => {
     try {
-      const saved = localStorage.getItem('voltspot_current_user');
-      if (saved) return JSON.parse(saved);
-      // Default to the seed driver for immediate ready-to-test experience
-      return storage.getUserById(1) || null;
+      const saved = localStorage.getItem(AUTH_USER_KEY);
+      if (!saved) return null;
+
+      const savedUser = JSON.parse(saved) as Partial<User>;
+      if (typeof savedUser.id !== 'number' || typeof savedUser.email !== 'string') {
+        return null;
+      }
+
+      const registeredUser = storage.getUserById(savedUser.id);
+      return registeredUser?.email.toLowerCase() === savedUser.email.toLowerCase()
+        ? registeredUser
+        : null;
     } catch {
-      return storage.getUserById(1) || null;
+      return null;
     }
   });
 
-  const [token, setToken] = useState<string | null>(() => {
-    return localStorage.getItem('voltspot_jwt_token') || 'mock-jwt-token-voltspot-user-1';
-  });
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('voltspot_current_user', JSON.stringify(user));
+      localStorage.setItem(AUTH_USER_KEY, JSON.stringify(user));
+      localStorage.removeItem(LEGACY_USER_KEY);
       const simulatedJwt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIke3VzZXIuaWR9IiwiZW1haWwiOiIke3VzZXIuZW1haWx9Iiwicm9sZSI6IiR7dXNlci5yb2xlfSIsImlhdCI6MTY3MjUwMDAwMH0`;
       localStorage.setItem('voltspot_jwt_token', simulatedJwt);
       setToken(simulatedJwt);
     } else {
-      localStorage.removeItem('voltspot_current_user');
+      localStorage.removeItem(AUTH_USER_KEY);
+      localStorage.removeItem(LEGACY_USER_KEY);
       localStorage.removeItem('voltspot_jwt_token');
       setToken(null);
     }
@@ -69,14 +79,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setUser(null);
   };
 
-  const switchRole = (newRole: UserRole) => {
-    const users = storage.getUsers();
-    const targetUser = users.find((u) => u.role === newRole) || users[0];
-    if (targetUser) {
-      setUser(targetUser);
-    }
-  };
-
   const quickSwitchUser = (userId: number) => {
     const target = storage.getUserById(userId);
     if (target) {
@@ -89,11 +91,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         token,
-        role: user ? user.role : 'DRIVER',
+        role: user?.role ?? null,
         login,
         register,
         logout,
-        switchRole,
         quickSwitchUser,
         isAuthenticated: !!user,
       }}

@@ -12,16 +12,14 @@ import {
   Car,
   Wrench,
   CheckCircle2,
-  Sparkles,
-  ArrowLeft
+  Sparkles
 } from 'lucide-react';
 
 interface LoginPageProps {
   onLoginSuccess?: () => void;
-  onBackToHome?: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHome }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
   const { user, login, register, quickSwitchUser } = useAuth();
   const { showToast } = useToast();
 
@@ -105,6 +103,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
       {/* 1. Antigravity Interactive Particle Canvas Background */}
       <div className="fixed inset-0 pointer-events-auto z-0">
         <Antigravity
+          color={undefined}
           colors={['#20a36a', '#2dd4bf', '#75d8a6', '#11865a', '#064e3b']}
           count={1600}
           magnetRadius={10}
@@ -121,6 +120,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
           opacity={0.88}
           lightMode={false}
           className="w-full h-full"
+          style={{ width: '100%', height: '100%' }}
         />
       </div>
 
@@ -132,18 +132,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess, onBackToHo
         
         {/* Top Glow Accent Bar */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-300" />
-
-        {/* Back Link */}
-        {onBackToHome && (
-          <button
-            onClick={onBackToHome}
-            type="button"
-            className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 mb-4 transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Return to Station Finder</span>
-          </button>
-        )}
 
         {/* Brand Header with Adjusted High-Contrast Text */}
         <div className="text-center mb-6">

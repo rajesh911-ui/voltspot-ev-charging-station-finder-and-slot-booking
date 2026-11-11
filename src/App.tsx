@@ -12,11 +12,34 @@ import { BackendExplorerModal } from './components/BackendExplorer/BackendExplor
 import { Zap, ShieldCheck, Heart } from 'lucide-react';
 
 function AppContent() {
-  const { role } = useAuth();
+  const { user } = useAuth();
   const [currentTab, setCurrentTab] = useState<string>('login');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isBackendExplorerOpen, setIsBackendExplorerOpen] = useState(false);
-  const isLoginScreen = currentTab === 'login';
+  const homeTab = user?.role === 'OPERATOR'
+    ? 'operator'
+    : user?.role === 'ADMIN'
+    ? 'admin'
+    : 'finder';
+  const allowedTabs = user?.role === 'DRIVER'
+    ? ['finder', 'bookings']
+    : user?.role === 'OPERATOR'
+    ? ['operator']
+    : user?.role === 'ADMIN'
+    ? ['admin']
+    : [];
+  const activeTab = user
+    ? allowedTabs.includes(currentTab)
+      ? currentTab
+      : homeTab
+    : 'login';
+  const isLoginScreen = activeTab === 'login';
+
+  const handleTabChange = (tab: string) => {
+    if (user && allowedTabs.includes(tab)) {
+      setCurrentTab(tab);
+    }
+  };
 
   // Dark Mode
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -39,22 +62,13 @@ function AppContent() {
     }
   }, [isDarkMode]);
 
-  // Sync tab if user changes role directly
-  useEffect(() => {
-    if (role === 'OPERATOR' && currentTab === 'admin') {
-      setCurrentTab('operator');
-    } else if (role === 'ADMIN' && currentTab === 'operator') {
-      setCurrentTab('admin');
-    }
-  }, [role, currentTab]);
-
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       {!isLoginScreen && (
         <>
           <Navbar
-            currentTab={currentTab}
-            onTabChange={(tab) => setCurrentTab(tab)}
+            currentTab={activeTab}
+            onTabChange={handleTabChange}
             onOpenBackendExplorer={() => setIsBackendExplorerOpen(true)}
             onOpenAuthModal={() => setIsAuthModalOpen(true)}
             isDarkMode={isDarkMode}
@@ -62,15 +76,15 @@ function AppContent() {
           />
 
           <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
-            {currentTab === 'finder' && (
+            {activeTab === 'finder' && (
               <DriverPortal onOpenBackendExplorer={() => setIsBackendExplorerOpen(true)} />
             )}
 
-            {currentTab === 'bookings' && <BookingsManager />}
+            {activeTab === 'bookings' && <BookingsManager />}
 
-            {currentTab === 'operator' && <OperatorPortal />}
+            {activeTab === 'operator' && <OperatorPortal />}
 
-            {currentTab === 'admin' && <AdminPortal />}
+            {activeTab === 'admin' && <AdminPortal />}
           </main>
 
           <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
@@ -103,11 +117,10 @@ function AppContent() {
       {isLoginScreen && (
         <LoginPage
           onLoginSuccess={() => setCurrentTab('finder')}
-          onBackToHome={() => setCurrentTab('finder')}
         />
       )}
 
-      {!isLoginScreen && isAuthModalOpen && (
+      {!isLoginScreen && user && isAuthModalOpen && (
         <AuthModal onClose={() => setIsAuthModalOpen(false)} />
       )}
       {!isLoginScreen && isBackendExplorerOpen && (
