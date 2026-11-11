@@ -13,7 +13,7 @@ import { Zap, ShieldCheck, Heart } from 'lucide-react';
 
 function AppContent() {
   const { role } = useAuth();
-  const [currentTab, setCurrentTab] = useState<string>('finder');
+  const [currentTab, setCurrentTab] = useState<string>('login');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isBackendExplorerOpen, setIsBackendExplorerOpen] = useState(false);
   const isLoginScreen = currentTab === 'login';
