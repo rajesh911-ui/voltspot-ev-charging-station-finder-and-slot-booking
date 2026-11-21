@@ -92,7 +92,7 @@ Integrated directly from React Bits, adapted for full-page vanilla WebGL2 with C
 # Start local server on port 8080
 node server.cjs
 ```
-Open **[http://localhost:8080/voltspot-ev-booking/](http://localhost:8080/voltspot-ev-booking/)** in your browser.
+Open **[http://localhost:8080/voltspot-ev-booking/](https://rajesh911-ui.github.io/voltspot-ev-charging-station-finder-and-slot-booking/)** in your browser.
 
 ### Option B: Apache NetBeans IDE 24 & Apache Tomcat 9.0.84
 1. **MySQL Setup**: Open MySQL Workbench 8.0 and execute `backend/database/voltspot_database_setup.sql`.
