@@ -15,6 +15,7 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import Antigravity from '../components/Antigravity/Antigravity.jsx';
 import chargingStationImage from '../assets/images/ev_charging_station_hero_1793370397856.jpg';
 
 interface LandingPageProps {
@@ -41,8 +42,34 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
-    <div className="dark min-h-screen bg-slate-950 text-slate-100">
-      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/95 backdrop-blur">
+    <div className="dark relative isolate min-h-screen bg-slate-950 text-slate-100">
+      <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
+        <Antigravity
+          color={undefined}
+          colors={['#20a36a', '#2dd4bf', '#75d8a6', '#11865a', '#064e3b']}
+          count={1600}
+          magnetRadius={10}
+          ringRadius={7.5}
+          waveSpeed={0.45}
+          waveAmplitude={1.2}
+          waveCount={3}
+          particleSize={0.95}
+          lerpSpeed={0.06}
+          autoAnimate={true}
+          interactive={true}
+          clickBurst={true}
+          fieldStrength={11}
+          opacity={0.88}
+          lightMode={false}
+          className="h-full w-full"
+          style={{ width: '100%', height: '100%' }}
+        />
+      </div>
+      <div
+        className="pointer-events-none fixed inset-0 z-0 bg-gradient-to-b from-slate-950/70 via-slate-950/60 to-slate-950/85"
+        aria-hidden="true"
+      />
+      <header className="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/85 backdrop-blur">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <a href="#top" className="flex shrink-0 items-center gap-2.5" aria-label="VoltSpot home">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-700 text-emerald-200 shadow-sm shadow-emerald-950/40">
@@ -111,8 +138,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         )}
       </header>
 
-      <main id="top">
-        <section className="relative overflow-hidden bg-slate-950">
+      <main id="top" className="relative z-10">
+        <section className="relative overflow-hidden">
           <div className="pointer-events-none absolute -left-24 top-0 h-80 w-80 rounded-full bg-emerald-500/10 blur-3xl" aria-hidden="true" />
           <div className="mx-auto grid max-w-7xl items-center gap-10 px-4 py-12 sm:px-6 sm:py-16 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-20">
             <div className="max-w-2xl">
@@ -228,7 +255,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        <section id="how-it-works" className="scroll-mt-24 bg-slate-900 py-16 text-white lg:py-20">
+        <section id="how-it-works" className="scroll-mt-24 bg-slate-900/70 py-16 text-white lg:py-20">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
               <div>
@@ -301,7 +328,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           </div>
         </section>
 
-        <section id="operators" className="scroll-mt-24 border-y border-slate-800 bg-slate-900">
+        <section id="operators" className="scroll-mt-24 border-y border-slate-800 bg-slate-900/70">
           <div className="mx-auto flex max-w-7xl flex-col gap-7 px-4 py-14 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8 lg:py-16">
             <div className="max-w-2xl">
               <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Operate a charging station?</h2>
@@ -334,7 +361,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         </section>
       </main>
 
-      <footer className="border-t border-slate-800 bg-slate-950">
+      <footer className="relative z-10 border-t border-slate-800 bg-slate-950/80">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr] lg:px-8">
           <div>
             <a href="#top" className="inline-flex items-center gap-2 text-lg font-extrabold text-white">
