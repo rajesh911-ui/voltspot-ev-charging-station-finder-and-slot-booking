@@ -8,23 +8,32 @@ import {
   Mail,
   Lock,
   ArrowRight,
+  ArrowLeft,
   Sparkles
 } from 'lucide-react';
 
 interface LoginPageProps {
+  initialMode?: 'login' | 'register';
+  initialRole?: UserRole;
   onLoginSuccess?: () => void;
+  onBackToHome?: () => void;
 }
 
-export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
+export const LoginPage: React.FC<LoginPageProps> = ({
+  initialMode = 'login',
+  initialRole = 'DRIVER',
+  onLoginSuccess,
+  onBackToHome,
+}) => {
   const { login, register } = useAuth();
   const { showToast } = useToast();
 
-  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [mode, setMode] = useState<'login' | 'register'>(initialMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [role, setRole] = useState<UserRole>('DRIVER');
+  const [role, setRole] = useState<UserRole>(initialRole);
 
   const handleEmailLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,7 +95,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
 
       {/* 2. Glassmorphism Login Card with Adjusted High-Contrast Text Colors (Centered via CSS Grid & Flexbox) */}
       <div className="relative z-10 max-w-lg w-full mx-auto my-auto self-center justify-self-center bg-slate-900/85 backdrop-blur-2xl border border-emerald-500/30 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85)] p-6 sm:p-8 overflow-hidden transition-all duration-300">
-        
         {/* Top Glow Accent Bar */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-emerald-300" />
 
@@ -268,6 +276,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
           <p className="text-[11px] text-slate-300 font-medium">
             🔒 Protected by 256-bit encryption &bull; RBI-Compliant UPI / RuPay &bull; GST Registered
           </p>
+          {onBackToHome && (
+            <button
+              type="button"
+              onClick={onBackToHome}
+              className="mt-2 inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-xs font-semibold text-emerald-300 transition hover:text-emerald-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              Return to public
+            </button>
+          )}
         </div>
       </div>
       </div>

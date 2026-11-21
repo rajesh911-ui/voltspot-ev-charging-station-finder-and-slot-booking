@@ -7,15 +7,18 @@ import { BookingsManager } from './pages/BookingsManager';
 import { OperatorPortal } from './pages/OperatorPortal';
 import { AdminPortal } from './pages/AdminPortal';
 import { LoginPage } from './pages/LoginPage';
+import { LandingPage } from './pages/LandingPage';
 import { AuthModal } from './components/Auth/AuthModal';
 import { BackendExplorerModal } from './components/BackendExplorer/BackendExplorerModal';
-import { Zap, ShieldCheck, Heart } from 'lucide-react';
+import { UserRole } from './types';
 
 function AppContent() {
   const { user } = useAuth();
-  const [currentTab, setCurrentTab] = useState<string>('login');
+  const [currentTab, setCurrentTab] = useState<string>('home');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isBackendExplorerOpen, setIsBackendExplorerOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
+  const [authRole, setAuthRole] = useState<UserRole>('DRIVER');
   const homeTab = user?.role === 'OPERATOR'
     ? 'operator'
     : user?.role === 'ADMIN'
@@ -32,8 +35,11 @@ function AppContent() {
     ? allowedTabs.includes(currentTab)
       ? currentTab
       : homeTab
-    : 'login';
+    : currentTab === 'login'
+    ? 'login'
+    : 'home';
   const isLoginScreen = activeTab === 'login';
+  const isLandingScreen = activeTab === 'home';
 
   const handleTabChange = (tab: string) => {
     if (user && allowedTabs.includes(tab)) {
@@ -64,7 +70,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
-      {!isLoginScreen && (
+      {user && (
         <>
           <Navbar
             currentTab={activeTab}
@@ -114,16 +120,39 @@ function AppContent() {
         </>
       )}
 
-      {isLoginScreen && (
-        <LoginPage
-          onLoginSuccess={() => setCurrentTab('finder')}
+      {isLandingScreen && (
+        <LandingPage
+          onSignIn={() => {
+            setAuthMode('login');
+            setAuthRole('DRIVER');
+            setCurrentTab('login');
+          }}
+          onRegister={() => {
+            setAuthMode('register');
+            setAuthRole('DRIVER');
+            setCurrentTab('login');
+          }}
+          onOperatorRegister={() => {
+            setAuthMode('register');
+            setAuthRole('OPERATOR');
+            setCurrentTab('login');
+          }}
         />
       )}
 
-      {!isLoginScreen && user && isAuthModalOpen && (
+      {isLoginScreen && (
+        <LoginPage
+          initialMode={authMode}
+          initialRole={authRole}
+          onLoginSuccess={() => setCurrentTab('home')}
+          onBackToHome={() => setCurrentTab('home')}
+        />
+      )}
+
+      {user && isAuthModalOpen && (
         <AuthModal onClose={() => setIsAuthModalOpen(false)} />
       )}
-      {!isLoginScreen && isBackendExplorerOpen && (
+      {user && isBackendExplorerOpen && (
         <BackendExplorerModal onClose={() => setIsBackendExplorerOpen(false)} />
       )}
     </div>
